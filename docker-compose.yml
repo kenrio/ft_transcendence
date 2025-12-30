@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   frontend:
     build: ./frontend
@@ -11,25 +9,25 @@ services:
     environment:
       - VITE_API_URL=http://localhost:300
 
-    backend:
-      build: ./backend
-      ports:
-        - "3000:3000"
-      environment:
-        - DATABASE_URL=postgresql://oekaki:password@db:5432/oekaki_db
-      depengs_on:
-        -db
+  backend:
+    build: ./backend
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=postgresql://oekaki:password@db:5432/oekaki_db
+    depends_on:
+      - db
 
-    db:
-      image: postgres:16-alpine
-      envrionment:
-        - POSTGRES_USER=oekaki
-        - POSTGRES_PASSWORD=password
-        - POSTGRES_DB=oekaki_db
-      volumes:
-        - postgres_data:/var/lib/postgresql/data
-      ports:
-        - "5432:5432"
+  db:
+    image: postgres:16-alpine
+    environment:
+      - POSTGRES_USER=oekaki
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=oekaki_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
 
 volumes:
-  postgre_data:
+  postgres_data:

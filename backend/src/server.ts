@@ -1,12 +1,12 @@
-import Fastify from 'fastify'
+import Fastify from 'fastify';
 
 const fastify = Fastify({
     logger: true
-})
+});
 
 fastify.get('/', async (request, reply) => {
     return { hello: 'world' }
-})
+});
 
 const start = async () => {
     try {
@@ -15,6 +15,6 @@ const start = async () => {
         fastify.log.error(err)
         process.exit(1)
     }
-}
+};
 
-start()
+start();

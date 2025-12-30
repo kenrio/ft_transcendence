@@ -1,13 +1,13 @@
-FROM	node:20-alpine
+FROM		node:20-alpine
 
-WORKDIR	/app
+WORKDIR		/app
 
-COPY	package*.json ./
+COPY		package*.json ./
 
-RUN		npm ci
+RUN			npm ci
 
-COPY	. .
+COPY		. .
 
-EXPOSE	5173
+EXPOSE		5173
 
-CMD		["npm", "run", "dev", "--", "--host"]
+CMD			["npm", "run", "dev", "--", "--host"]
