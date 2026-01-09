@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Node.jobs
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
@@ -40,22 +40,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Node.json
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
-          cache-dependency-path: backend/packacge-lock.json
+          cache-dependency-path: backend/package-lock.json
 
       - name: Install dependencies
         working-directory: ./backend
         run: npm ci
 
       - name: Prisma generate
-        working-directory: ./backend
-        run: npx prisma generate
-
-      - name: Type check
         working-directory: ./backend
         run: npx prisma generate
 
