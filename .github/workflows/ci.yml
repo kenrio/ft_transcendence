@@ -1,67 +1,69 @@
+# ワークフロー名（GitHub上に表示）
 name: CI
 
+# いつ実行されるか
 on:
   push:
     branches:
-      - '**'
+      - '**' # すべてのブランチへのpush
   pull_request:
     branches:
-      - '**'
+      - '**' # すべてのブランチへのPR
 
-jobs:
-  frontend:
-    runs-on: ubuntu-latest
+jobs: # 実行するジョブ
+  frontend: # frontendジョブ
+    runs-on: ubuntu-latest # Ubuntu環境で実行
 
-    steps:
-      - uses: actions/checkout@v4
+    steps: # 実行する手順（上から順番に実行）
+      - uses: actions/checkout@v4 # ソースコードを取得
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Setup Node.js # Node.jsをセットアップ（ステップ名）
+        uses: actions/setup-node@v4 # Node.jsをセットアップ
         with:
-          node-version: '20'
-          cache: 'npm'
-          cache-dependency-path: frontend/package-lock.json
+          node-version: '20' # Node.js 20をインストール　
+          cache: 'npm' # npmキャッシュを有効化
+          cache-dependency-path: frontend/package-lock.json # package-lock.jsonが変わらなければキャッシュを使用
 
-      - name: Install dependencies
-        working-directory: ./frontend
-        run: npm ci
+      - name: Install dependencies # 依存関係（必要なパッケージなど）をインストール
+        working-directory: ./frontend # `cd frontend/` をして実行
+        run: npm ci # package-lock.json通りにパッケージをインストール
 
-      - name: Type check
-        working-directory: ./frontend
-        run: npx tsc --noEmit
+      - name: Type check # 型チェック（コンパイルせずに文法チェックのみを行う）
+        working-directory: ./frontend # `cd frontend/` をして実行
+        run: npx tsc --noEmit # TypeScriptの型チェックを実行（--noEmit: ファイルは生成しない）
 
-      - name: Build
-        working-directory: ./frontend
-        run: npm run build
+      - name: Build # ビルド
+        working-directory: ./frontend # `cd frontend/` をして実行
+        run: npm run build # Viteでビルド実行
 
-  backend:
-    runs-on: ubuntu-latest
+  backend: # backendジョブ
+    runs-on: ubuntu-latest # Ubuntu環境で実行
 
-    env:
-      DATABASE_URL: postgresql://test:test@localhost:5432/test_db
+    env: # 環境変数を設定
+      DATABASE_URL: postgresql://test:test@localhost:5432/test_db # Prismaが必要とするDATABASE_URLをダミーで設定
 
-    steps:
-      - uses: actions/checkout@v4
+    steps: # 実行する手順（上から順番に実行）
+      - uses: actions/checkout@v4 # ソースコードを取得
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Setup Node.js # Node.jsをセットアップ（ステップ名）
+        uses: actions/setup-node@v4 # Node.jsをセットアップ
         with:
-          node-version: '20'
-          cache: 'npm'
-          cache-dependency-path: backend/package-lock.json
+          node-version: '20' # Node.js 20をインストール
+          cache: 'npm' # npmキャッシュを有効化
+          cache-dependency-path: backend/package-lock.json # # package-lock.jsonが変わらなければキャッシュを使用
 
-      - name: Install dependencies
-        working-directory: ./backend
-        run: npm ci
+      - name: Install dependencies # 依存関係（必要なパッケージなど）をインストール
+        working-directory: ./backend # `cd backend` をして実行
+        run: npm ci # package-lock.json通りにパッケージをインストール
 
-      - name: Prisma generate
-        working-directory: ./backend
-        run: npx prisma generate
+      - name: Prisma generate # Prismaクライアントコードを生成（ステップ名）
+        working-directory: ./backend # `cd backend/` をして実行
+        run: npx prisma generate # Prismaクライアントコードを生成（schema.prisma読み込み → TS型定義を自動生成 → Prisma Client作成）
 
-      - name: Type check
-        working-directory: ./backend
-        run: npx tsc --noEmit
+      - name: Type check # 型チェック（コンパイルせずに文法チェックのみを行う）
+        working-directory: ./backend # `cd backend/` をじて実行
+        run: npx tsc --noEmit # TypeScriptの型チェックを実行（--noEmit: ファイルを生成しない）
 
-      - name: Build
-        working-directory: ./backend
-        run: npm run build
+      - name: Build # ビルド
+        working-directory: ./backend # `cd backend/` をして実行
+        run: npm run build # Viteでビルド実行
