@@ -11,6 +11,10 @@ fastify.register(cors, {
     origin: true // 開発環境なので全て許可 (本番では制限を推奨)
 });
 
+fastify.get('/', async (request, reply) => {
+	return { hello: 'world!!!!' }
+});
+
 // ルートの登録
 fastify.register(userRoutes, { prefix: '/api' });
 
