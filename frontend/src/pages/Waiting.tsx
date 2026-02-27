@@ -3,7 +3,12 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useAuth } from "../features/auth/useAuth";
 import { roomApi } from "../api/roomApi";
 import { GameRole, type User } from "../types/user";
-import { GameMode, WebSocketMessageType, type RoomDetails, type RoomMember } from "../types/room";
+import {
+	GameMode,
+	WebSocketMessageType,
+	type RoomDetails,
+	type RoomMember,
+} from "../types/room";
 import Toast from "../components/Toast";
 import { createWebSocket } from "../api/wsClient";
 
@@ -102,7 +107,10 @@ const Waiting = () => {
 					if (data.type === "gameModeUpdated") {
 						setGameMode(data.mode);
 					}
-					if (data.type === "navigateToPrepare" && data.roomId != null) {
+					if (
+						data.type === "navigateToPrepare" &&
+						data.roomId != null
+					) {
 						navigate(`/prepare/${data.roomId}`);
 					}
 				} catch (error) {
