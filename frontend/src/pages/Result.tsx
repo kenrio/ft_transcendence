@@ -119,7 +119,7 @@ const Result = () => {
 			className="min-h-screen flex flex-col"
 			style={{ backgroundColor: "#87ceeb" }}
 		>
-			<LogoNavbar linkToHome />
+			<LogoNavbar />
 
 			<div className="flex-1 flex flex-col items-center p-6">
 				<div className="w-full max-w-3xl flex flex-col gap-6">
