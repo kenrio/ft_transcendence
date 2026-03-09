@@ -36,8 +36,8 @@ const Canvas = ({
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const [isDrawing, setIsDrawing] = useState(false);
 	const [isEraser, setIsEraser] = useState(false);
-	const [isStrokeDone, setIsStrokeDone] = useState(false);
 	const [color, setColor] = useState("#000000");
+	const isStrokeDoneRef = useRef<boolean>(false);
 
 	useEffect(() => {
 		const canvas = canvasRef.current;
@@ -116,10 +116,10 @@ const Canvas = ({
 		const ctx = canvas.getContext("2d");
 		if (!ctx) return;
 
-		if (isStrokeDone) {
+		if (isStrokeDoneRef.current) {
 			ctx.fillStyle = "white";
 			ctx.fillRect(0, 0, canvas.width, canvas.height);
-			setIsStrokeDone(false);
+			isStrokeDoneRef.current = false;
 			socket?.send(JSON.stringify({ type: "clear" }));
 		}
 
@@ -193,7 +193,7 @@ const Canvas = ({
 		setIsDrawing(false);
 
 		if (gameMode === GameMode.ONE_STROKE) {
-			setIsStrokeDone(true);
+			isStrokeDoneRef.current = true;
 		}
 
 		if (socket && socket.readyState === WebSocket.OPEN) {
